@@ -8,6 +8,7 @@ import './App.css';
 const App = () => { 
   console.log('render')
   const [searchField, setSearchField] = useState('') // [values, setValues] is how this works
+  const [title, setTitle] = useState('') 
   console.log(searchField)
   const [monsters, setMonsters] = useState([])
   const[filteredMonsters, setFilteredMonsters] = useState(monsters)
@@ -26,23 +27,30 @@ const App = () => {
     setFilteredMonsters(newFilteredMonsters)
   }, [monsters, searchField])
 
+  const onTitleChange = (event) => {
+    const searchFieldString = event.target.value.toLowerCase()
+    setTitle(searchFieldString)
+  }
+
   const onSearchChange = (event) => {
     const searchFieldString = event.target.value.toLowerCase()
     setSearchField(searchFieldString)
-
-    const filteredMonsters = monsters.filter((monster) => {
-      return monster.name.toLowerCase().includes(searchField)
-    })
-    console.log(filteredMonsters)
   }
 
   return (
     <div className="App">
       <h1 className='app-title'>Kitty Rolodex</h1>
+      <p className='app-title'>{title}</p>
         <SearchBox 
           className='search-box'
           placeholder='search kitties'
         onChangeHandler={onSearchChange}
+      />
+      <br />
+              <SearchBox 
+          className='title-search-box'
+          placeholder='Set Title'
+        onChangeHandler={onTitleChange}
       />
         <Cardlist monsters={filteredMonsters} />
       {
